@@ -1,0 +1,217 @@
+entities:
+  - Concept
+  - Paper  
+  - Pattern
+  - Repo
+  - Resource
+  - Author
+  - Venue
+  - Technology
+
+relations:
+  - [Paper, "ABOUT", Concept]
+  - [Paper, "IMPLEMENTS", Repo]
+  - [Paper, "PUBLISHED_IN", Venue]
+  - [Paper, "AUTHORED_BY", Author]
+  - [Pattern, "SUPPORTS", Concept]
+  - [Pattern, "SOLVES", Problem]
+  - [Pattern, "IMPLEMENTED_IN", Technology]
+  - [Concept, "RELATED_TO", Concept]
+  - [Concept, "BELONGS_TO", Domain]
+  - [Resource, "EXPLAINS", Concept]
+  - [Resource, "DEMONSTRATES", Pattern]
+  - [Repo, "USES", Technology]
+  - [Author, "AFFILIATED_WITH", Organization]
+
+domains:
+  - name: "ML"
+    concepts: ["RAG", "LLM", "Embeddings", "Transformer", "MLOps", "NLP"]
+    technologies: ["PyTorch", "Transformers", "LangChain", "Chroma"]
+  - name: "Architecture"  
+    concepts: ["Microservices", "CQRS", "Event-Driven", "API Gateway"]
+    technologies: ["Docker", "Kubernetes", "Kong", "Istio"]
+  - name: "Frontend"
+    concepts: ["SSR", "PWA", "WebAssembly", "State Management"]
+    technologies: ["React", "Next.js", "Vue", "Svelte"]
+  - name: "DevOps"
+    concepts: ["CI/CD", "IaC", "Observability", "GitOps"]
+    technologies: ["GitHub Actions", "Terraform", "Prometheus", "ArgoCD"]
+  - name: "Security"
+    concepts: ["Zero Trust", "Supply Chain", "Container Security"]
+    technologies: ["Vault", "Falco", "Trivy", "OPA"]
+
+venues:
+  - name: "NeurIPS"
+    type: "conference"
+    domain: "ML"
+    impact_factor: 9.2
+  - name: "ICML" 
+    type: "conference"
+    domain: "ML"
+    impact_factor: 8.8
+  - name: "OSDI"
+    type: "conference" 
+    domain: "Systems"
+    impact_factor: 7.5
+  - name: "SIGMOD"
+    type: "conference"
+    domain: "Database"
+    impact_factor: 6.8
+
+patterns:
+  architectural:
+    - "API Gateway"
+    - "Circuit Breaker" 
+    - "Saga Pattern"
+    - "CQRS"
+    - "Event Sourcing"
+  data:
+    - "Repository Pattern"
+    - "Unit of Work"
+    - "Data Mapper"
+    - "Active Record"
+  ml:
+    - "Feature Store"
+    - "Model Registry"
+    - "A/B Testing"
+    - "Online Learning"
+  frontend:
+    - "Compound Components"
+    - "Custom Hooks"
+    - "Optimistic UI"
+    - "Error Boundaries"
+
+concepts_hierarchy:
+  ML:
+    RAG:
+      - "Vector Database"
+      - "Embeddings" 
+      - "Retrieval"
+      - "Generation"
+      - "Prompt Augmentation"
+    LLM:
+      - "Transformer"
+      - "Attention"
+      - "Fine-tuning"
+      - "RLHF"
+    MLOps:
+      - "Model Versioning"
+      - "Data Drift"
+      - "Model Monitoring"
+      - "Feature Store"
+  
+  Architecture:
+    Microservices:
+      - "Service Discovery"
+      - "Load Balancing"
+      - "Circuit Breaker"
+      - "Distributed Tracing"
+    Event-Driven:
+      - "Event Sourcing"
+      - "CQRS"
+      - "Saga Pattern"
+      - "Message Queue"
+
+cross_references:
+  theoretical_to_practical:
+    - concept: "RAG"
+      papers: ["Dense Passage Retrieval", "RAG: Retrieval-Augmented Generation"]
+      patterns: ["Vector Search", "Semantic Caching"]
+      repos: ["langchain", "llamaindex", "haystack"]
+      resources: ["Pinecone Guide", "Weaviate Tutorial"]
+    
+    - concept: "Microservices"
+      papers: ["Building Microservices", "Microservices Patterns"]
+      patterns: ["API Gateway", "Service Mesh", "Circuit Breaker"]
+      repos: ["istio", "envoy", "kong"]
+      resources: ["Martin Fowler Blog", "Microservices.io"]
+    
+    - concept: "Event-Driven Architecture"
+      papers: ["Event Sourcing", "CQRS Journey"]
+      patterns: ["Event Sourcing", "CQRS", "Saga"]
+      repos: ["axonframework", "eventstore", "kafka"]
+      resources: ["Event Store Docs", "Confluent Resources"]
+
+navigation_paths:
+  concept_exploration:
+    - start: "Concept"
+    - follow: ["RELATED_TO", "BELONGS_TO"] 
+    - discover: "Related concepts in same domain"
+  
+  implementation_path:
+    - start: "Concept"
+    - follow: ["EXPLAINED_BY", "DEMONSTRATED_BY"]
+    - reach: "Resources and Patterns"
+    - follow: ["IMPLEMENTED_IN"]
+    - reach: "Technologies and Repos"
+  
+  academic_path:
+    - start: "Concept"
+    - follow: ["ABOUT"]
+    - reach: "Papers"
+    - follow: ["AUTHORED_BY", "PUBLISHED_IN"]
+    - reach: "Authors and Venues"
+  
+  problem_solving:
+    - start: "Problem"
+    - follow: ["SOLVED_BY"]
+    - reach: "Pattern"
+    - follow: ["SUPPORTS", "IMPLEMENTED_IN"]
+    - reach: "Concepts and Technologies"
+
+query_templates:
+  multi_hop:
+    - "Find patterns that solve problems related to {concept}"
+    - "Show me repos implementing papers about {concept}"
+    - "What technologies are used for {pattern} in {domain}?"
+    - "Which authors published in {venue} about {concept}?"
+  
+  discovery:
+    - "Concepts related to {concept} in {domain}"
+    - "Papers by authors who worked on {concept}"
+    - "Technologies that implement {pattern}"
+    - "Resources explaining concepts from {paper}"
+  
+  comparison:
+    - "Compare patterns for {concept} across domains"
+    - "Authors working on both {concept1} and {concept2}"
+    - "Technologies supporting multiple patterns"
+
+search_strategies:
+  hybrid_approach:
+    vector_weight: 0.7
+    graph_weight: 0.3
+    fallback_to_lexical: true
+  
+  domain_boosting:
+    ML: 1.2
+    Architecture: 1.1
+    Frontend: 0.9
+    DevOps: 1.0
+    Security: 1.1
+  
+  path_scoring:
+    direct_relation: 1.0
+    one_hop: 0.8
+    two_hop: 0.6
+    three_hop: 0.4
+  
+  relevance_factors:
+    - recency: 0.2
+    - citation_count: 0.3
+    - github_stars: 0.2
+    - domain_match: 0.3
+
+maintenance:
+  update_frequency: "weekly"
+  validation_rules:
+    - "All relations must have valid source and target entities"
+    - "Concepts must belong to defined domains"
+    - "Papers must have valid venue associations"
+    - "Technologies must be actively maintained"
+  
+  quality_checks:
+    orphaned_entities: "monthly"
+    broken_links: "weekly"  
+    outdated_resources: "quarterly"
+    missing_relations: "monthly"
