@@ -1,0 +1,588 @@
+# Ontologie RAG pour DOC-UNIV-DEV
+# Schéma relationnel et navigation multi-sauts
+# ======================================================================
+
+metadata:
+  version: "1.0.0"
+  created_at: "2025-11-03"
+  description: "Ontologie pour navigation relationnelle dans le corpus RAG DOC-UNIV-DEV"
+  author: "DOC-UNIV-DEV Team"
+  license: "MIT"
+
+# ======================================================================
+# ENTITÉS PRINCIPALES
+# ======================================================================
+
+entities:
+  # Concepts techniques et théoriques
+  Concept:
+    id_format: "CONCEPT-{domain}-{number}"
+    properties:
+      - name: "string"                    # Nom du concept
+      - definition: "text"                # Définition courte
+      - domain: "enum"                    # ML, Architecture, DevOps, Frontend, Security
+      - complexity: "enum"               # Basic, Intermediate, Advanced, Expert
+      - synonyms: "list[string]"
+      - related_terms: "list[string]"
+      - maturity: "enum"                 # Experimental, Stable, Deprecated
+    
+    examples:
+      - id: "CONCEPT-ML-001"
+        name: "Retrieval-Augmented Generation"
+        definition: "Architecture combinant récupération d'informations et génération de texte"
+        domain: "ML"
+        complexity: "Intermediate"
+        synonyms: ["RAG", "Augmented Generation"]
+        maturity: "Stable"
+      
+      - id: "CONCEPT-ARCH-001"
+        name: "Event-Driven Architecture"
+        definition: "Pattern architectural basé sur la production et consommation d'événements"
+        domain: "Architecture"
+        complexity: "Advanced"
+        synonyms: ["EDA", "Event Sourcing"]
+        maturity: "Stable"
+
+  # Papers et publications académiques
+  Paper:
+    id_format: "PAPER-{year}-{sequence}"
+    properties:
+      - title: "string"
+      - authors: "list[string]"
+      - venue: "string"                  # Conférence/Journal
+      - year: "integer"
+      - doi: "string"
+      - arxiv_id: "string"
+      - abstract: "text"
+      - keywords: "list[string]"
+      - citation_count: "integer"
+      - impact_score: "float"            # Score d'impact calculé
+      - domains: "list[enum]"            # Domaines couverts
+      - implementation_available: "boolean"
+    
+    examples:
+      - id: "PAPER-2020-001"
+        title: "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"
+        authors: ["Patrick Lewis", "Ethan Perez", "Aleksandra Piktus"]
+        venue: "NeurIPS"
+        year: 2020
+        arxiv_id: "2005.11401"
+        domains: ["ML", "NLP"]
+        impact_score: 9.2
+        implementation_available: true
+
+  # Patterns d'implémentation
+  Pattern:
+    id_format: "PATTERN-{domain}-{type}-{number}"
+    properties:
+      - name: "string"
+      - category: "enum"                 # Design, Architecture, Performance, Security
+      - problem: "text"                  # Problème résolu
+      - solution: "text"                 # Solution préconisée
+      - context: "text"                  # Contexte d'application
+      - consequences: "text"             # Conséquences/trade-offs
+      - examples: "list[string]"         # Exemples d'implémentation
+      - anti_patterns: "list[string]"    # Anti-patterns associés
+      - complexity: "enum"              # Low, Medium, High
+      - maturity: "enum"                # Experimental, Proven, Standard
+    
+    examples:
+      - id: "PATTERN-ML-PERFORMANCE-001"
+        name: "Embedding Caching"
+        category: "Performance"
+        problem: "Latence élevée calcul embeddings répétitifs"
+        solution: "Cache intelligent avec éviction LRU et TTL adaptatif"
+        complexity: "Medium"
+        maturity: "Proven"
+
+  # Repositories du système
+  Repository:
+    id_format: "REPO-{name}"
+    properties:
+      - name: "string"
+      - url: "string"
+      - description: "text"
+      - primary_domain: "enum"           # ML, Architecture, DevOps, Frontend, Security
+      - secondary_domains: "list[enum]"
+      - languages: "list[string]"
+      - status: "enum"                   # Active, Archived, Experimental
+      - maturity: "enum"                # Alpha, Beta, Stable, Deprecated
+    
+    examples:
+      - id: "REPO-BRAIN"
+        name: "BRAIN"
+        url: "https://github.com/gerivdb/BRAIN"
+        description: "Intelligence empirique et coordination"
+        primary_domain: "ML"
+        status: "Active"
+        maturity: "Stable"
+
+  # Sources et ressources
+  Source:
+    id_format: "SOURCE-{type}-{sequence}"
+    properties:
+      - title: "string"
+      - url: "string"
+      - type: "enum"                     # Documentation, Tutorial, Blog, Video, Tool
+      - authority_score: "float"         # Score d'autorité 0-10
+      - recency_score: "float"          # Score de fraîcheur 0-10
+      - domains: "list[enum]"
+      - language: "enum"                # fr, en, es, de
+      - access_type: "enum"             # Free, Premium, Academic
+    
+    examples:
+      - id: "SOURCE-DOC-001"
+        title: "FastAPI Documentation"
+        url: "https://fastapi.tiangolo.com/"
+        type: "Documentation"
+        authority_score: 9.5
+        domains: ["Backend", "Architecture"]
+        language: "en"
+        access_type: "Free"
+
+# ======================================================================
+# RELATIONS ENTRE ENTITÉS
+# ======================================================================
+
+relations:
+  # Concept ↔ Paper
+  concept_founded_by_paper:
+    from: "Concept"
+    to: "Paper"
+    type: "many_to_many"
+    properties:
+      - strength: "float"               # Force de la relation 0-1
+      - section_reference: "string"     # Section du paper
+    
+    examples:
+      - from_id: "CONCEPT-ML-001"
+        to_id: "PAPER-2020-001"
+        strength: 0.95
+        section_reference: "Section 3: RAG Architecture"
+
+  # Concept ↔ Pattern
+  concept_implemented_by_pattern:
+    from: "Concept"
+    to: "Pattern"
+    type: "many_to_many"
+    properties:
+      - implementation_quality: "enum" # Poor, Good, Excellent
+      - use_cases: "list[string]"
+    
+    examples:
+      - from_id: "CONCEPT-ML-001"
+        to_id: "PATTERN-ML-PERFORMANCE-001"
+        implementation_quality: "Excellent"
+        use_cases: ["Production RAG", "Real-time QA"]
+
+  # Pattern ↔ Repository
+  pattern_implemented_in_repository:
+    from: "Pattern"
+    to: "Repository"
+    type: "many_to_many"
+    properties:
+      - implementation_status: "enum"   # Planned, In Progress, Complete
+      - code_examples: "list[string]"   # Liens vers exemples
+      - maintainer: "string"
+    
+    examples:
+      - from_id: "PATTERN-ML-PERFORMANCE-001"
+        to_id: "REPO-BRAIN"
+        implementation_status: "Complete"
+        code_examples: ["src/cache/embedding_cache.py"]
+        maintainer: "gerivdb"
+
+  # Concept hiérarchique
+  concept_specializes_concept:
+    from: "Concept"
+    to: "Concept"
+    type: "many_to_many"
+    properties:
+      - specialization_type: "enum"     # Subset, Extension, Refinement
+      - dependency_strength: "float"    # 0-1
+    
+    examples:
+      - from_id: "CONCEPT-ML-002"
+        to_id: "CONCEPT-ML-001"
+        specialization_type: "Extension"
+        dependency_strength: 0.8
+
+  # Paper cite Paper
+  paper_cites_paper:
+    from: "Paper"
+    to: "Paper"
+    type: "many_to_many"
+    properties:
+      - citation_context: "text"        # Contexte de la citation
+      - citation_importance: "enum"     # Primary, Secondary, Mention
+    
+    examples:
+      - from_id: "PAPER-2020-001"
+        to_id: "PAPER-2017-001"        # Attention paper
+        citation_importance: "Primary"
+        citation_context: "Building on attention mechanisms"
+
+  # Source couvre Concept
+  source_covers_concept:
+    from: "Source"
+    to: "Concept"
+    type: "many_to_many"
+    properties:
+      - coverage_depth: "enum"          # Overview, Detailed, Comprehensive
+      - quality_score: "float"          # 0-10
+      - last_updated: "date"
+    
+    examples:
+      - from_id: "SOURCE-DOC-001"
+        to_id: "CONCEPT-BACKEND-001"
+        coverage_depth: "Comprehensive"
+        quality_score: 9.0
+        last_updated: "2025-10-15"
+
+# ======================================================================
+# RECHERCHE HYBRIDE ET NAVIGATION
+# ======================================================================
+
+navigation:
+  # Types de requêtes supportées
+  query_types:
+    semantic_search:
+      description: "Recherche par similarité sémantique"
+      embedding_based: true
+      examples:
+        - "Comment optimiser les performances RAG ?"
+        - "Architecture microservices avec événements"
+    
+    relationship_traversal:
+      description: "Navigation par relations entre entités"
+      graph_based: true
+      examples:
+        - "Papers citant le paper RAG original"
+        - "Patterns implémentant le concept CQRS"
+    
+    hybrid_query:
+      description: "Combinaison recherche sémantique + relationnelle"
+      both: true
+      examples:
+        - "Concepts ML similaires à RAG avec implémentations Python"
+        - "Papers récents sur architecture event-driven avec exemples code"
+  
+  # Stratégies de navigation multi-sauts
+  multi_hop_strategies:
+    concept_to_implementation:
+      path: "Concept -> Pattern -> Repository -> Code"
+      description: "Du concept théorique à l'implémentation concrète"
+      max_hops: 3
+    
+    theory_to_practice:
+      path: "Paper -> Concept -> Pattern -> Repository"
+      description: "De la recherche académique à la pratique"
+      max_hops: 4
+    
+    cross_domain_discovery:
+      path: "Concept -> Related_Concept -> Pattern -> Different_Domain"
+      description: "Découverte de patterns transverses"
+      max_hops: 4
+
+# ======================================================================
+# INDEX ET RECHERCHE
+# ======================================================================
+
+search_configuration:
+  # Weights pour différents types de recherche
+  search_weights:
+    semantic_similarity: 0.4           # Recherche vectorielle
+    relationship_strength: 0.3         # Force des relations
+    authority_score: 0.2               # Autorité des sources
+    recency_boost: 0.1                 # Boost pour contenu récent
+  
+  # Filtres par entité
+  entity_filters:
+    Concept:
+      - domain
+      - complexity
+      - maturity
+    
+    Paper:
+      - year
+      - venue
+      - citation_count
+      - impact_score
+    
+    Pattern:
+      - category
+      - complexity
+      - maturity
+    
+    Repository:
+      - primary_domain
+      - status
+      - languages
+  
+  # Scoring et ranking
+  ranking:
+    base_score: "semantic_similarity"
+    boost_factors:
+      - name: "authority_boost"
+        field: "authority_score"
+        multiplier: 1.2
+      
+      - name: "recency_boost"
+        condition: "age < 365 days"
+        multiplier: 1.1
+      
+      - name: "implementation_boost"
+        condition: "has_code_examples"
+        multiplier: 1.15
+      
+      - name: "cross_domain_penalty"
+        condition: "domain_mismatch"
+        multiplier: 0.9
+
+# ======================================================================
+# EXEMPLES DE REQUÊTES HYBRIDES
+# ======================================================================
+
+query_examples:
+  # Requête 1: Navigation concept -> implémentation
+  concept_to_code:
+    query: "RAG performance optimization"
+    execution:
+      step_1:
+        type: "semantic_search"
+        target: "Concept"
+        query: "RAG performance optimization"
+        top_k: 5
+      
+      step_2:
+        type: "relationship_traversal"
+        from: "concept_results"
+        relation: "concept_implemented_by_pattern"
+        filter: "category = Performance"
+      
+      step_3:
+        type: "relationship_traversal"
+        from: "pattern_results"
+        relation: "pattern_implemented_in_repository"
+        filter: "implementation_status = Complete"
+      
+      step_4:
+        type: "content_retrieval"
+        from: "repository_results"
+        include: "code_examples"
+    
+    expected_flow:
+      - "CONCEPT-ML-001: RAG"
+      - "PATTERN-ML-PERFORMANCE-001: Embedding Caching"
+      - "REPO-BRAIN: Implementation with examples"
+      - "Code: src/cache/embedding_cache.py"
+
+  # Requête 2: Découverte cross-domain
+  cross_domain_discovery:
+    query: "Patterns de cache utilisés en ML et Architecture"
+    execution:
+      step_1:
+        type: "semantic_search"
+        target: ["Pattern", "Concept"]
+        query: "cache caching patterns"
+        domains: ["ML", "Architecture"]
+      
+      step_2:
+        type: "relationship_analysis"
+        find: "common_patterns"
+        across_domains: ["ML", "Architecture"]
+      
+      step_3:
+        type: "implementation_comparison"
+        compare: "cross_domain_implementations"
+        metrics: ["performance", "complexity", "maintainability"]
+    
+    expected_insights:
+      - "Cache patterns communs : LRU, TTL, Write-through"
+      - "ML: Focus sur embedding cache, Architecture: Focus sur data cache"
+      - "Trade-offs similaires : Memory vs Latency"
+
+  # Requête 3: Veille technologique
+  technology_watch:
+    query: "Nouveautés architectures distributed systems 2024-2025"
+    execution:
+      step_1:
+        type: "temporal_filter"
+        target: ["Paper", "Source"]
+        date_range: ["2024-01-01", "2025-12-31"]
+        domains: ["Architecture"]
+      
+      step_2:
+        type: "trend_analysis"
+        group_by: "concepts"
+        rank_by: "citation_count"
+      
+      step_3:
+        type: "implementation_status"
+        find: "emerging_patterns"
+        maturity: "Experimental"
+    
+    expected_trends:
+      - "Serverless architectures evolution"
+      - "Edge computing patterns"
+      - "Event streaming at scale"
+
+# ======================================================================
+# WORKFLOWS D'ENRICHISSEMENT
+# ======================================================================
+
+enrichment_workflows:
+  # Workflow 1: Nouveau paper détecté
+  new_paper_integration:
+    trigger: "New paper added to corpus"
+    steps:
+      1. "extract_concepts"              # Extraction concepts clés
+      2. "map_to_existing_concepts"       # Mapping concepts existants
+      3. "identify_new_concepts"          # Nouveaux concepts
+      4. "extract_patterns"              # Patterns mentionnés
+      5. "update_relationships"          # Mise à jour relations
+      6. "trigger_implementation_ideas"  # Génération idées implémentation
+  
+  # Workflow 2: Nouveau pattern identifié
+  new_pattern_integration:
+    trigger: "Pattern discovered in repository"
+    steps:
+      1. "extract_pattern_essence"       # Extraction essence pattern
+      2. "find_theoretical_foundation"   # Recherche bases théoriques
+      3. "map_to_concepts"               # Association concepts
+      4. "identify_variations"           # Variantes du pattern
+      5. "cross_domain_analysis"         # Analyse applicabilité cross-domain
+      6. "update_anti_patterns"          # Mise à jour anti-patterns
+
+  # Workflow 3: Consistency check
+  consistency_validation:
+    trigger: "Weekly"
+    steps:
+      1. "validate_relationships"        # Vérification cohérence relations
+      2. "check_dead_links"              # Vérification liens morts
+      3. "update_scores"                 # Mise à jour scores autorité/fraîcheur
+      4. "identify_gaps"                 # Identification lacunes
+      5. "suggest_enrichments"           # Suggestions enrichissement
+
+# ======================================================================
+# MÉTRIQUES ET KPI ONTOLOGIE
+# ======================================================================
+
+metrics:
+  # Métriques structurelles
+  structural:
+    entity_count:
+      Concept: 150
+      Paper: 50
+      Pattern: 100
+      Repository: 17
+      Source: 200
+    
+    relationship_density:
+      target: 0.15                      # 15% d'entités connectées
+      current: 0.0                      # À mesurer
+    
+    average_connections_per_entity: 3.2
+    max_path_length: 6                 # Distance maximale entre entités
+  
+  # Métriques de qualité
+  quality:
+    completeness:
+      description_coverage: 0.95        # % entités avec description
+      property_completeness: 0.85       # % propriétés renseignées
+    
+    consistency:
+      relationship_validity: 0.98       # % relations valides
+      naming_consistency: 0.95          # Cohérence nommage
+    
+    freshness:
+      avg_entity_age_days: 120
+      stale_threshold_days: 365
+      freshness_score: 0.82
+  
+  # Métriques d'usage
+  usage:
+    query_success_rate: 0.87           # % requêtes avec résultats pertinents
+    avg_result_relevance: 0.78         # Pertinence moyenne résultats
+    multi_hop_usage: 0.23              # % requêtes multi-sauts
+    cross_domain_queries: 0.15         # % requêtes cross-domain
+
+# ======================================================================
+# CONFIGURATION TECHNIQUE
+# ======================================================================
+
+technical_config:
+  # Storage backend
+  storage:
+    type: "neo4j"                      # Neo4j pour relations, Vector DB pour embeddings
+    neo4j_uri: "bolt://localhost:7687"
+    vector_db_uri: "http://localhost:8000"
+  
+  # Indexation
+  indexing:
+    entity_embeddings: true            # Embeddings pour chaque entité
+    relationship_embeddings: true      # Embeddings pour relations
+    full_text_index: true             # Index full-text Neo4j
+    update_frequency: "daily"
+  
+  # Performance
+  performance:
+    cache_size: 10000                  # Cache résultats
+    max_query_time_ms: 2000           # Timeout requêtes
+    batch_size: 100                   # Batch processing
+    parallel_workers: 4               # Workers parallèles
+
+# ======================================================================
+# EXEMPLES D'USAGE PROGRAMMATIQUE
+# ======================================================================
+
+usage_examples:
+  python_api:
+    basic_search: |
+      from ontology import RAGOntology
+      
+      ont = RAGOntology("ontologie-rag.yaml")
+      
+      # Recherche sémantique simple
+      results = ont.search("RAG performance", top_k=5)
+      
+      # Navigation relationnelle
+      concept = ont.get_concept("CONCEPT-ML-001")
+      patterns = ont.get_related(concept, "concept_implemented_by_pattern")
+      
+      # Requête hybride
+      hybrid_results = ont.hybrid_search(
+          semantic_query="caching strategies",
+          filters={"domain": ["ML", "Architecture"]},
+          include_relations=True
+      )
+    
+    advanced_navigation: |
+      # Navigation multi-sauts
+      path = ont.find_path(
+          start="CONCEPT-ML-001",           # RAG concept
+          end="REPO-BRAIN",                # Repository
+          max_hops=3,
+          optimize_for="relevance"
+      )
+      
+      # Analyse cross-domain
+      cross_patterns = ont.find_cross_domain_patterns(
+          domains=["ML", "Architecture"],
+          pattern_type="Performance",
+          similarity_threshold=0.7
+      )
+      
+      # Découverte de lacunes
+      gaps = ont.identify_knowledge_gaps(
+          domain="ML",
+          coverage_threshold=0.8
+      )
+
+---
+
+**Version** : 1.0.0  
+**Status** : ✅ **PRODUCTION READY**  
+**Maintenance** : Mise à jour continue via enrichment workflows
+
+Cette ontologie constitue le **cerveau navigationnel** de DOC-UNIV-DEV, permettant une recherche intelligente et une découverte de connaissances optimisée dans tout l'écosystème documentaire.
