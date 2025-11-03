@@ -1,0 +1,110 @@
+index:
+  embed_model: "bge-large-en-v1.5"
+  distance: "cosine"
+  chunking:
+    strategy: "recursive"
+    chunk_size: 800
+    overlap: 120
+    separators: ["\n\n", "\n", ".", "!", "?", ";", ",", " "]
+  top_k: 8
+  filters: ["doc_id", "section", "tags", "date", "domain", "chunk_type"]
+  
+vector_db:
+  provider: "weaviate"  # ou "chroma", "pinecone", "qdrant"
+  index_name: "doc-univ-dev-corpus"
+  dimensions: 1024  # bge-large-en-v1.5
+  
+retrieval:
+  hybrid_search: true
+  alpha: 0.7  # 0.0 = keyword only, 1.0 = vector only
+  rerank: true
+  rerank_model: "cross-encoder/ms-marco-MiniLM-L-6-v2"
+  
+quality_thresholds:
+  min_similarity: 0.75
+  max_chunks_per_query: 12
+  min_chunk_length: 100
+  max_chunk_length: 1200
+  
+domains:
+  ml:
+    weight: 1.2
+    boost_terms: ["RAG", "LLM", "embeddings", "transformer", "MLOps"]
+  architecture:
+    weight: 1.1
+    boost_terms: ["microservices", "CQRS", "event-driven", "patterns"]
+  devops:
+    weight: 1.0
+    boost_terms: ["kubernetes", "docker", "CI/CD", "monitoring"]
+  security:
+    weight: 1.1
+    boost_terms: ["zero-trust", "auth", "encryption", "vulnerability"]
+  frontend:
+    weight: 0.9
+    boost_terms: ["react", "vue", "typescript", "SSR", "PWA"]
+
+metadata_schema:
+  required_fields:
+    - "doc_id"
+    - "created_at"
+    - "chunk_type"
+    - "domain"
+    - "parent_url"
+  optional_fields:
+    - "section"
+    - "tags"
+    - "priority"
+    - "concept"
+    - "paper_title"
+    - "venue"
+    - "citations"
+    - "pattern_name"
+    - "pattern_type"
+    - "resource_type"
+
+chunk_types:
+  definition:
+    max_size: 400
+    overlap: 0
+    boost_weight: 1.3
+  paper_summary:
+    max_size: 600
+    overlap: 50
+    boost_weight: 1.2
+  pattern:
+    max_size: 500
+    overlap: 30
+    boost_weight: 1.1
+  resource:
+    max_size: 300
+    overlap: 0
+    boost_weight: 1.0
+  methodology:
+    max_size: 800
+    overlap: 100
+    boost_weight: 1.1
+
+performance_targets:
+  retrieval_latency_ms: 150
+  indexing_throughput_docs_per_sec: 100
+  recall_at_5: 0.85
+  precision_at_5: 0.80
+  diversity_at_10: 0.70
+
+monitoring:
+  metrics:
+    - "query_latency"
+    - "index_size"
+    - "recall_at_k"
+    - "precision_at_k" 
+    - "user_satisfaction"
+  alerts:
+    - latency_threshold_ms: 300
+    - recall_drop_threshold: 0.05
+    - index_size_gb: 5.0
+
+maintenance:
+  reindex_frequency: "weekly"
+  quality_check_frequency: "daily"  
+  backup_frequency: "daily"
+  cleanup_old_versions: "monthly"
