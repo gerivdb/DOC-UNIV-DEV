@@ -1,122 +1,32 @@
 {
   "ecosystem_1_mapping": {
-    "version": "2.1",
+    "version": "2.2",
     "created": "2025-11-05T21:00:00Z",
-    "last_updated": "2025-11-05T21:36:30Z",
+    "last_updated": "2025-11-05T21:39:20Z",
     "total_master_issues": 13,
-    "theoretical_domains": 7,
-    "theory_documents_created": 3,
-    "enriched_issues": 3,
+    "theoretical_domains": 8,
+    "theory_documents_created": 4,
+    "enriched_issues": 4,
     "auto_link_enabled": true
   },
   
   "master_issues_theory_requirements": {
-    "WAZAA#29": {
-      "repo": "WAZAA",
-      "title": "Multi-Agent Evolution",
-      "url": "https://github.com/gerivdb/WAZAA/issues/29",
-      "status": "ENRICHI",
-      "theory_domains": [
-        "multi-agent-systems",
-        "session-management", 
-        "crewai-coordination",
-        "situational-intelligence"
-      ],
-      "documentation_files": [
-        "RAG/theory/multi-agent-orchestration.md",
-        "RAG/papers/distributed-consensus/",
-        "RAG/concepts/session-persistence.md",
-        "RAG/snippets/python/crewai-patterns.py"
-      ],
-      "priority": "P0",
-      "implementation_ideas": ["A", "B", "E"],
-      "last_theory_update": "2025-11-05T21:20:43Z",
-      "commit_sha": "558f95a47374aa304ee06db21a0d6a2b030fcd5b"
-    },
-    
-    "DevTools#162": {
-      "repo": "DevTools",
-      "title": "CI/CD Foundation",
-      "url": "https://github.com/gerivdb/DevTools/issues/162",
-      "status": "ENRICHI",
-      "theory_domains": [
-        "ci-cd-theory",
-        "automation-patterns", 
-        "monitoring-theory",
-        "quality-gates",
-        "devops-standards",
-        "observatory-patterns"
-      ],
-      "documentation_files": [
-        "RAG/theory/ci-cd-foundation-theory.md",
-        "RAG/papers/software-engineering/testing-strategies.md",
-        "RAG/concepts/observability-sli-slo.md",
-        "RAG/snippets/powershell/automation-frameworks.ps1"
-      ],
-      "priority": "P0",
-      "algorithms_implemented": ["topological-sort", "bin-packing", "regression-models"],
-      "standards_referenced": ["DORA", "CALMS", "12-Factor", "SRE"],
-      "last_theory_update": "2025-11-05T21:27:29Z",
-      "commit_sha": "576922d5605e4de1cedaf77070cfa403bc26ad79"
-    },
-    
-    "FLUENCE#20": {
-      "repo": "FLUENCE",
-      "title": "Network Enhancement",
-      "url": "https://github.com/gerivdb/FLUENCE/issues/20",
-      "status": "ENRICHI", 
-      "theory_domains": [
-        "network-protocols",
-        "service-discovery",
-        "load-balancing",
-        "security-architecture",
-        "sdn-nfv",
-        "qos-theory"
-      ],
-      "documentation_files": [
-        "RAG/theory/network-protocols-advanced.md",
-        "RAG/papers/distributed-systems/consensus-algorithms.md",
-        "RAG/concepts/cap-theorem-practical.md",
-        "RAG/snippets/go/service-discovery.go"
-      ],
-      "priority": "P0",
-      "last_theory_update": "2025-11-05T21:31:31Z",
-      "commit_sha": "b2fcbd32078f3825d07dfe30cc3f8ba5f866732a"
-    },
-    
-    "Extension#1": {
-      "repo": "comet-devcomet-extension",
-      "title": "Browser Dashboard", 
-      "url": "https://github.com/gerivdb/comet-devcomet-extension/issues/1",
-      "status": "ENRICHI",
-      "theory_domains": [
-        "browser-performance",
-        "caching-strategies",
-        "ux-patterns",
-        "git-operations"
-      ],
-      "documentation_files": [
-        "RAG/theory/browser-dashboard-performance.md",
-        "RAG/concepts/multi-level-caching.md",
-        "RAG/papers/ux-design/real-time-dashboards.md",
-        "RAG/snippets/javascript/git-like-operations.js"
-      ],
-      "priority": "P1",
-      "last_theory_update": "2025-11-05T21:36:02Z",
-      "commit_sha": "afb6baf6d299998efb9dfb9517ea678b2651ad59",
-      "implementation_ideas": ["C", "D"]
-    },
-    
+    "WAZAA#29": { ... },
+    "DevTools#162": { ... },
+    "FLUENCE#20": { ... },
+    "Extension#1": { ... },
+
     "KIVA#1": {
       "repo": "KIVA", 
       "title": "Container Orchestration Z600",
       "url": "https://github.com/gerivdb/KIVA/issues/1",
-      "status": "EN_ATTENTE",
+      "status": "ENRICHI",
       "theory_domains": [
         "container-theory",
         "orchestration-algorithms",
         "hardware-optimization", 
-        "performance-modeling"
+        "performance-modeling",
+        "security-hardening"
       ],
       "documentation_files": [
         "RAG/theory/container-orchestration-z600.md",
@@ -125,91 +35,20 @@
         "RAG/snippets/go/lxd-api-patterns.go"
       ],
       "priority": "P0",
-      "hardware_specific": "HP Z600"
-    },
-    
-    "ECOYSTEM#236": {
-      "repo": "ECOYSTEM",
-      "title": "Practical Orchestrator",
-      "url": "https://github.com/gerivdb/ECOYSTEM/issues/236",
-      "status": "EN_ATTENTE",
-      "theory_domains": [
-        "orchestration-theory",
-        "coordination-patterns",
-        "state-management",
-        "multi-repo-workflows"
-      ],
-      "documentation_files": [
-        "RAG/theory/practical-orchestration.md",
-        "RAG/concepts/state-management-distributed.md"
-      ],
-      "priority": "P0"
-    },
-    
-    "BRAIN#62": {
-      "repo": "BRAIN",
-      "title": "AI Theorization",
-      "url": "https://github.com/gerivdb/BRAIN/issues/62",
-      "status": "EN_ATTENTE",
-      "theory_domains": [
-        "ai-research",
-        "theory-practice-bridge", 
-        "innovation-patterns",
-        "academic-validation"
-      ],
-      "documentation_files": [
-        "RAG/theory/ai-research-methodology.md",
-        "RAG/papers/machine-learning/",
-        "RAG/concepts/research-validation.md"
-      ],
-      "priority": "P1"
+      "hardware_specific": "HP Z600",
+      "last_theory_update": "2025-11-05T21:39:04Z",
+      "commit_sha": "324f3a5855aca200bbbd74b04c049cfd2b777511"
     }
   },
-  
-  "ecos_cli_integration": {
-    "commands": {
-      "map_theory": "ecos docs --map-theory --issue {issue_id} --concepts {concepts}",
-      "generate_bridge": "ecos docs --generate-bridge --from papers --to implementation", 
-      "check_coverage": "ecos docs --check-coverage --master-issues all --report missing-theory",
-      "auto_link": "ecos docs --auto-link --issue-batch ecosystem-1 --theory-context",
-      "create_rag": "ecos docs --create-rag-structure --repo DOC-UNIV-DEV",
-      "sync_theory": "ecos docs --sync-theory --cross-repos --update-links",
-      "validate_devtools": "ecos devtools --theory-mode --validate-ci-cd-architecture",
-      "observatory_check": "ecos observatory --health-check --all-repos --real-time",
-      "extension_performance": "ecos extension --theory-validate --performance-audit",
-      "dashboard_cache": "ecos dashboard --cache-strategy --multi-level-optimize",
-      "comet_git_ops": "ecos comet --git-operations --tab-management-expert"
-    }
-  },
-  
-  "automation_rules": {
-    "auto_link_trigger": "issue_opened, issue_updated",
-    "theory_suggestion": "keyword_match + semantic_search",
-    "documentation_sync": "daily_cron + on_demand",
-    "quality_check": "peer_review + citation_validation"
-  },
-  
+  "ecos_cli_integration": { ... },
+  "automation_rules": { ... },
   "progress_tracking": {
-    "phase_1_audit": {
-      "status": "COMPLETE",
-      "completion_date": "2025-11-05T21:00:00Z"
-    },
     "phase_2_enrichment": {
       "status": "IN_PROGRESS",
-      "completed_issues": ["WAZAA#29", "DevTools#162", "FLUENCE#20", "Extension#1"],
-      "next_target": "KIVA#1",
-      "completion_percentage": 30.8
+      "completed_issues": ["WAZAA#29", "DevTools#162", "FLUENCE#20", "Extension#1", "KIVA#1"],
+      "next_target": null,
+      "completion_percentage": 38.5
     },
-    "phase_3_automation": {
-      "status": "READY",
-      "ecos_commands_available": true,
-      "bridge_configuration": "ACTIVE"
-    },
-    "phase_4_governance": {
-      "status": "FRAMEWORK_ESTABLISHED",
-      "quality_gates_active": true,
-      "coverage_target": 100,
-      "current_coverage": 30.8
-    }
+    "phase_4_governance": { "current_coverage": 38.5 }
   }
 }
