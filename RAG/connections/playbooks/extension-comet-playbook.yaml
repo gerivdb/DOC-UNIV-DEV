@@ -1,0 +1,65 @@
+# ECOS CLI Playbook — Extension Comet DevComet (Audit → Optimisation → Bench → Monitor)
+
+version: 1.0
+updated: "2025-11-05T21:54:45Z"
+component: "comet-devcomet-extension"
+priority: "P1"
+
+stages:
+  - id: audit_theory
+    description: "Validation théorie/perf de l'extension (conformité objectifs académiques)"
+    commands:
+      - "ecos extension --theory-validate --performance-audit"
+      - "ecos ux --vitals-monitor --real-time-metrics --once"
+
+  - id: cache_optim
+    description: "Optimisation cache multi-niveau (browser/persistant/mémoire)"
+    commands:
+      - "ecos dashboard --cache-strategy --multi-level-optimize"
+      - "ecos cache --intelligent-invalidation --cross-tab-sync"
+
+  - id: git_like_ops
+    description: "Activation des Git-like operations (branch/stash/merge/cherry-pick)"
+    commands:
+      - "ecos comet --git-operations --tab-management-expert"
+
+  - id: benchmark
+    description: "Benchmarks UX/Perf (100+ tabs, latence updates, mémoire)"
+    commands:
+      - "ecos performance --dashboard-benchmark --target-achievement"
+      - "ecos browser --memory-profile --garbage-collect-tuned"
+
+  - id: monitor_rt
+    description: "Mise en observation temps réel / intégration dashboard ECOSYSTEM-1"
+    commands:
+      - "ecos ux --vitals-monitor --real-time-metrics --watch"
+
+success_criteria:
+  - key: first_paint
+    target: "< 100ms"
+  - key: interaction_ready
+    target: "< 200ms"
+  - key: dashboard_load
+    target: "< 500ms"
+  - key: realtime_updates
+    target: "< 50ms"
+  - key: memory_steady
+    target: "< 50MB"
+
+integration:
+  docs:
+    - "RAG/theory/browser-dashboard-performance.md"
+    - "RAG/prompts/prompt-comet-devcomet-extension.md"
+  issues:
+    - "https://github.com/gerivdb/comet-devcomet-extension/issues/1"
+  ecos_cli_groups:
+    - "extension"
+    - "dashboard"
+    - "comet"
+    - "ux"
+    - "performance"
+    - "cache"
+
+notes:
+  - "Exécuter les stages dans l'ordre. Chaque stage est idempotent."
+  - "Les résultats sont remontés au dashboard Observatory (DevTools) et WAZAA intelligence."
