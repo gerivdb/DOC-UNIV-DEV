@@ -1,12 +1,12 @@
 {
   "ecosystem_1_mapping": {
-    "version": "2.0",
+    "version": "2.1",
     "created": "2025-11-05T21:00:00Z",
-    "last_updated": "2025-11-05T21:30:00Z",
+    "last_updated": "2025-11-05T21:36:30Z",
     "total_master_issues": 13,
-    "theoretical_domains": 6,
-    "theory_documents_created": 2,
-    "enriched_issues": 2,
+    "theoretical_domains": 7,
+    "theory_documents_created": 3,
+    "enriched_issues": 3,
     "auto_link_enabled": true
   },
   
@@ -64,12 +64,14 @@
       "repo": "FLUENCE",
       "title": "Network Enhancement",
       "url": "https://github.com/gerivdb/FLUENCE/issues/20",
-      "status": "EN_ATTENTE", 
+      "status": "ENRICHI", 
       "theory_domains": [
         "network-protocols",
         "service-discovery",
         "load-balancing",
-        "security-architecture"
+        "security-architecture",
+        "sdn-nfv",
+        "qos-theory"
       ],
       "documentation_files": [
         "RAG/theory/network-protocols-advanced.md",
@@ -77,7 +79,32 @@
         "RAG/concepts/cap-theorem-practical.md",
         "RAG/snippets/go/service-discovery.go"
       ],
-      "priority": "P0"
+      "priority": "P0",
+      "last_theory_update": "2025-11-05T21:31:31Z",
+      "commit_sha": "b2fcbd32078f3825d07dfe30cc3f8ba5f866732a"
+    },
+    
+    "Extension#1": {
+      "repo": "comet-devcomet-extension",
+      "title": "Browser Dashboard", 
+      "url": "https://github.com/gerivdb/comet-devcomet-extension/issues/1",
+      "status": "ENRICHI",
+      "theory_domains": [
+        "browser-performance",
+        "caching-strategies",
+        "ux-patterns",
+        "git-operations"
+      ],
+      "documentation_files": [
+        "RAG/theory/browser-dashboard-performance.md",
+        "RAG/concepts/multi-level-caching.md",
+        "RAG/papers/ux-design/real-time-dashboards.md",
+        "RAG/snippets/javascript/git-like-operations.js"
+      ],
+      "priority": "P1",
+      "last_theory_update": "2025-11-05T21:36:02Z",
+      "commit_sha": "afb6baf6d299998efb9dfb9517ea678b2651ad59",
+      "implementation_ideas": ["C", "D"]
     },
     
     "KIVA#1": {
@@ -99,27 +126,6 @@
       ],
       "priority": "P0",
       "hardware_specific": "HP Z600"
-    },
-    
-    "Extension#1": {
-      "repo": "comet-devcomet-extension",
-      "title": "Browser Dashboard", 
-      "url": "https://github.com/gerivdb/comet-devcomet-extension/issues/1",
-      "status": "EN_ATTENTE",
-      "theory_domains": [
-        "browser-performance",
-        "caching-strategies",
-        "ux-patterns",
-        "git-operations"
-      ],
-      "documentation_files": [
-        "RAG/theory/browser-dashboard-performance.md",
-        "RAG/concepts/multi-level-caching.md",
-        "RAG/papers/ux-design/real-time-dashboards.md",
-        "RAG/snippets/javascript/git-like-operations.js"
-      ],
-      "priority": "P1",
-      "implementation_ideas": ["C", "D"]
     },
     
     "ECOYSTEM#236": {
@@ -169,7 +175,10 @@
       "create_rag": "ecos docs --create-rag-structure --repo DOC-UNIV-DEV",
       "sync_theory": "ecos docs --sync-theory --cross-repos --update-links",
       "validate_devtools": "ecos devtools --theory-mode --validate-ci-cd-architecture",
-      "observatory_check": "ecos observatory --health-check --all-repos --real-time"
+      "observatory_check": "ecos observatory --health-check --all-repos --real-time",
+      "extension_performance": "ecos extension --theory-validate --performance-audit",
+      "dashboard_cache": "ecos dashboard --cache-strategy --multi-level-optimize",
+      "comet_git_ops": "ecos comet --git-operations --tab-management-expert"
     }
   },
   
@@ -187,9 +196,9 @@
     },
     "phase_2_enrichment": {
       "status": "IN_PROGRESS",
-      "completed_issues": ["WAZAA#29", "DevTools#162"],
-      "next_target": "FLUENCE#20",
-      "completion_percentage": 15.4
+      "completed_issues": ["WAZAA#29", "DevTools#162", "FLUENCE#20", "Extension#1"],
+      "next_target": "KIVA#1",
+      "completion_percentage": 30.8
     },
     "phase_3_automation": {
       "status": "READY",
@@ -200,7 +209,7 @@
       "status": "FRAMEWORK_ESTABLISHED",
       "quality_gates_active": true,
       "coverage_target": 100,
-      "current_coverage": 15.4
+      "current_coverage": 30.8
     }
   }
 }
